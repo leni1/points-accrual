@@ -58,6 +58,36 @@ class Employee(AbstractBaseUser):
 
     ]
 
+    def return_points(instance):
+        points = 0
+        if instance.seniority == Employee.a:
+            points = 5
+        if instance.seniority == Employee.b:
+            points = 10
+        if instance.seniority == Employee.c:
+            points = 15
+        if instance.seniority == Employee.d:
+            points = 20
+        if instance.seniority == Employee.e:
+            points = 25
+        return points
+
+    def return_points_multiplier(instance, points):
+        join_date = instance.date_joined
+        current_date = timezone.now
+        difference = current_date - join_date
+
+        time_elapse = difference.days // 365
+
+        if 0 <= time_elapse <= 2:
+            return points * points
+        if 2 <= time_elapse <= 4:
+            multi = points * 1.25
+            return points + multi
+        if time_elapse >= 4:
+            multi = points * 1.5
+            return points + multi
+
     email = models.EmailField(
         _('Email Address'),
         unique=True,
